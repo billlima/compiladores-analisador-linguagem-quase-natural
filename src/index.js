@@ -1,53 +1,43 @@
 // mygenerator.js
 var Parser = require("jison").Parser;
+var Funcoes = require("./funcoes");
 
 console.log('\n\n>>>>>>>>>>>>>>');
 
-function getCardinalFromOrdinal(n) {
-    let primeirasLetras = n.substr(0,3);
-
-    switch (primeirasLetras) {
-        case 'pri': return 1;
-        case 'seg': return 2;
-        case 'ter': return 3;
-        case 'qua': return 4;
-        case 'qui': return 5;
-        case 'sex': return 6;
-        case 'set': return 7;
-        case 'oit': return 8;
-        case 'non': return 9;
-    }
-}
-
-console.log(getCardinalFromOrdinal('decimo quinto'));
 
 // a grammar in JSON
 var grammar = {
+    "yy": {
+        "ordinalToCardinal": Funcoes.ordinalToCardinal
+    },
     "lex": {
         "rules": [
             ["\\s+",                    "/* skip whitespace */"],
             ["(qual e a|qual e o)",     "return 'PRINT'"],
             ["[0-9]+(?:\\.[0-9]+)?\\b", "return 'NUMBER';"],
-            ["(vezes|\\*)",             "return '*';"],
-            ["(dividido por|\\/)",      "return '/';"],
-            ["(menos|-)",               "return '-';"],
-            ["(mais|\\+)",              "return '+';"],
-            ["dobro de",             "return 'DOBRO';"],
-            ["triplo de",            "return 'TRIPLO';"],
-            ["quadruplo de",          "return 'QUADRUPLO';"],
+            ["(vezes o|vezes|\\*)",             "return '*';"],
+            ["(dividido por|dividido pelo|\\/)",      "return '/';"],
+            ["(menos o|menos|-)",               "return '-';"],
+            ["(mais o|mais|\\+)",              "return '+';"],
+            ["(dobro do|dobro de)",             "return 'DOBRO';"],
+            ["(triplo do|triplo de)",            "return 'TRIPLO';"],
+            ["(quadruplo de|quadruplo do)",          "return 'QUADRUPLO';"],
             ["(item de|item da)",         "return 'ITEMDE';"],
+            ["(escreva|escrever|escreva o|escrever o)",      "return 'ESCREVER';"],
+            ["(armazenar|armazene)",    "return 'ARMAZENAR';"],
+            ["em",                      "return 'EM';"],
             ["\\[(?:\\d+,)*\\d+\\]",    "return 'ARRAY';"],
             ["\\(",                     "return '(';"],
             ["\\)",                     "return ')';"],
+            ["\\\"[a-z]*\\b\\\"",              "return 'TEXT';"],
+            ["[a-z]+([0-9]|[a-z])*",    "return 'ID';"],
             ["$",                       "return 'EOF';"],
-            ["[a-z]*\\b",              "return 'TEXT';"]
         ]
     },
     
     "operators": [
         ["left", "+", "-"],
-        ["left", "*", "/", "DOBRO", "TRIPLO", "QUADRUPLO"],
-        ["left", "PRINT", "ITEM DE"]
+        ["left", "*", "/", "ID", "DOBRO", "TRIPLO", "QUADRUPLO", "ARRAY", "TEXT", "PRINT", "ITEM DE"]
     ],
     
     "bnf": {
@@ -62,23 +52,21 @@ var grammar = {
             [ "DOBRO e",   "$$ = 2 * $2;"],
             [ "TRIPLO e",   "$$ = 3 * $2;"],
             [ "QUADRUPLO e",   "$$ = 4 * $2;"],
-            [ "ARRAY", "$$ = yytext.replace(/[\\[\\]]/g, '').split(',').map(v => Number(v));"],
             [ "NUMBER",  "$$ = Number(yytext);" ],
-            [ "PRINT TEXT ITEMDE e", "$$ = $$; console.log('itens:',$1, $2, $3, $4);"] //TODO como enviar função
-            
+            [ "ID ITEMDE ARRAY", "$$ = yy.toArrayNumber($3)[yy.ordinalToCardinal($1)-1]"],
+            [ "ARMAZENAR e EM ID", "$$ = $$; yy.memory[$4] = $2"],
+            [ "ESCREVER ID", "console.log(yy.memory[$2])"],
+            [ "ESCREVER TEXT", "console.log($2)"]
         ]
     }
 };
 
 // `grammar` can also be a string that uses jison's grammar format
 var parser = new Parser(grammar);
+parser.yy = {...Funcoes};
+parser.yy.memory = [];
 
-// generate source, ready to be written to disk
 var parserSource = parser.generate();
 
-// you can also use the parser directly from memory
-
-// returns true
-
-
-parser.parse("qual e o quinto item de [12,30]");
+parser.parse("armazenar 2 em x");
+parser.parse("escreva x");
