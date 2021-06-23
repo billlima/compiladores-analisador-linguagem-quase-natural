@@ -21,7 +21,39 @@ var toArrayNumber = function(arr) {
         .map(v => Number(v));
 }
 
+var removeAspas = function(str) {
+    return str.replace(/\"/g,'');
+}
+
+var doRepeatedly = function(qt, funcToDo) {
+    while (qt > 0) {
+        funcToDo();
+        qt--;
+    }
+}
+
+var ifElse = function(cond, onTrue, onFalse) {
+    return (cond) ? onTrue() : onFalse();
+}
+
+var menorItemDe = function(itens) {
+    var menor = itens[0];
+    itens.forEach(i => menor = i < menor ? i : menor);
+    return menor;
+}
+
+var maiorItemDe = function(itens) {
+    var maior = itens[0];
+    itens.forEach(i => maior = i > maior ? i : maior);
+    return maior;
+}
+
 module.exports = {
     ordinalToCardinal: ordinalToCardinal,
-    toArrayNumber: toArrayNumber
+    toArrayNumber: toArrayNumber,
+    removeAspas: removeAspas,
+    doRepeatedly: doRepeatedly,
+    ifElse: ifElse,
+    maiorItemDe: maiorItemDe,
+    menorItemDe: menorItemDe
 }
