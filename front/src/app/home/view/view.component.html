@@ -37,13 +37,13 @@
                                 <div class="row">
                                     <div class="col-12 font-weight-bolder">Entrada</div>
                                     <div class="col-12">
-                                        <form>
+                                        <form [formGroup]="form" novalidate>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                <textarea class="form-control" id="texto" formControlName="texto"
                                                     rows="10" placeholder="Código de entrada"></textarea>
                                             </div>
 
-                                            <button type="submit" class="btn btn-primary">Interpretar</button>
+                                            <button type="button" class="btn btn-primary" (click)="interpretar()">Interpretar</button>
                                         </form>
                                     </div>
                                 </div>
@@ -51,7 +51,22 @@
                             <div class="col-6">
                                 <div class="row">
                                     <div class="col-12 font-weight-bolder">Saída</div>
-                                    <div class="col-12"></div>
+                                    <div class="col-12" *ngFor="let linha of resultado">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <b>{{ linha.linha }}</b>
+                                            </div>
+                                            <div class="col-md-12" style="padding-left: 30px;">
+                                                <span class="badge badge-secondary" *ngIf="linha.saida.length > 0">
+                                                    {{ linha.saida }}
+                                                </span>
+
+                                                <span class="badge badge-primary" *ngIf="linha.saida.length == 0">
+                                                    Sem saída
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

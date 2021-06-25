@@ -31,7 +31,7 @@
               "src/styles.sass"
             ],
             "scripts": [
-              "../../src/index.js"
+              
             ]
           },
           "configurations": {

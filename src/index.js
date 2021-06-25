@@ -133,9 +133,7 @@ var grammar = {
     }
 };
 
-
-
-function interpretar() {
+function interpretar(texto) {
     // `grammar` can also be a string that uses jison's grammar format
     var parser = new Parser(grammar);
     parser.yy = { ...Funcoes };
@@ -144,30 +142,20 @@ function interpretar() {
     parser.yy.out = [];
 
     var parserSource = parser.generate();
-
-    var texto = `
-    se 2 e maior que 1 entao armazenar 2 em x senao armazenar 1 em x\n
-    escreva x\n
-    armazenar x vezes 8 em x\n
-    escreva x 3 vezes\n
-    se x e maior que 17 entao escreva x senao escreva o quadruplo de x\n
-    se x e maior que 15 entao escreva "OKAY"\n
-    escreva "feito" 3 vezes\n
-    escrever o dobro de (4 mais 3)\n
-    escrever o dobro de 4 mais 3\n
-    escrever o sexto item de [1,2,4,5,555,7]\n
-    escreva o menor item de [1,2,4,5,555,7]\n
-    escreva o maior item de [1,2,4,5,555,7]\n
-`;
     var linhas = texto.split(/\r?\n/g);
+    var retorno = [];
 
     linhas.forEach(linha => {
         if (linha && linha.length) {
-            console.log('>>>>>>>>>', linha);
             parser.yy.out = [];
             parser.parse(linha);
-            console.log(parser.yy.out);
-
+            retorno.push({ linha: linha, saida: parser.yy.out })
         }
     });
+
+    return retorno;
+}
+
+module.exports = { 
+    interpretar: interpretar
 }
