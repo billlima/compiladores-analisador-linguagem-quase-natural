@@ -3,36 +3,34 @@ var Parser = require("jison").Parser;
 var Funcoes = require("./funcoes");
 
 var tokens = {
-    SE: {t: 'SE', message: '\"se\": Início de uma condição (Ex: se ... então faça ...'},
-    SE: {t: 'SE', message:'\"se\": Início de uma condição (Ex: se ... então faça ...'},
-    EM: {t: 'EM', message:'\"em\": Para informar a localização de armazenamento de uma variável (Ex: armazene ... em ...'},
-    NUMBER: {t: 'NUMBER', message:'Número'},
-    VEZES: {t: 'VEZES', message:'\"vezes\": Operação de multiplicação'},
-    DIVIDIDO: {t: 'DIVIDIDO', message:'\"dividido por|pelo\": Operação de divisão'},
-    MENOS: {t: 'MENOS', message:'\n"menos\": Operação de subtração'},
-    MAIS: {t: 'MAIS', message:'\n"mais\n": Operação de adição'},
-    LT: {t: 'LT', message:'\"menor que\": Verifica qual o menor'},
-    GT: {t: 'GT', message:'\"maior que\": Verifica qual o maior'},
-    EQ: {t: 'EQ', message:'\"igual a\": Verifica se são iguais'},
-    NEQ: {t: 'NEQ', message:'\"diferente de\": Verifica se são diferentes'},
-    DOBRO: {t: 'DOBRO', message:'\"dobro de\": Calcula o dobro\"'},
-    TRIPLO: {t: 'TRIPLO', message:'\"triplo de\": Calcula o triplo\"'},
-    QUADRUPLO: {t: 'QUADRUPLO', message:'\"quádruplo de\": Calcula o quádruplo\"'},
-    MAIORITEMDE: {t: 'MAIORITEMDE', message:'\"maior item de\": Busca o maior ítem de um vetor'},
-    MENORITEMDE: {t: 'MENORITEMDE', message:'\"menor item de\": Busca o maior ítem de um vetor'},
-    ITEMDE: {t: 'ITEMDE', message:'\"primeiro|...|décimo nono item de\": Busca o ítem de vetor conforme localização informada'},
-    ARMAZENAR: {t: 'ARMAZENAR', message:'\"armazene|armazenar\": Início de uma operação de armazenamento de um valor na memória (Ex.: armazenar 20 em x)'},
-    ENTAO: {t: 'ENTAO', message:'\"então faça\": Precede operação a ser executada em uma condição positiva (Ex.: se ... então faça'},
-    SENAO: {t: 'SENAO', message:'\"senão faça\": Precede operação a ser executada em uma condição (Ex.: se ... então faça ... senão faça ...'},
-    ARRAY: {t: 'ARRAY', message:'Vetor de números (Ex: [1,2,3]'},
-    LP: {t: 'LP', message:'\"(\": Abre Parênteses'},
-    RP: {t: 'RP', message:'\")\": Fecha Parênteses'},
-    ESCREVER: {t: 'ESCREVER', message:'\"escreva|escrever\": Operação para escrever na saída algo (Ex.: escreva 1 + 4)'},
-    ID: {t: 'ID', message:'Identificador de uma localização da memória, inicia com uma letra e após números ou letras (Ex.: x, x1)'},
-    TEXT: {t: 'TEXT', message:'Texto entre aspas (Ex.: \"casa\"'},
-    EOF: {t: 'EOF', message:''},
+    SE:         {t: 'SE',           message:'\"se\": Início de uma condição (Ex: se ... então faça ...'},
+    EM:         {t: 'EM',           message:'\"em\": Para informar a localização de armazenamento de uma variável (Ex: armazene ... em ...'},
+    NUMBER:     {t: 'NUMBER',       message:'Número'},
+    VEZES:      {t: 'VEZES',        message:'\"vezes\": Operação de multiplicação'},
+    DIVIDIDO:   {t: 'DIVIDIDO',     message:'\"dividido por|pelo\": Operação de divisão'},
+    MENOS:      {t: 'MENOS',        message:'\n"menos\": Operação de subtração'},
+    MAIS:       {t: 'MAIS',         message:'\n"mais\n": Operação de adição'},
+    LT:         {t: 'LT',           message:'\"menor que\": Verifica qual o menor'},
+    GT:         {t: 'GT',           message:'\"maior que\": Verifica qual o maior'},
+    EQ:         {t: 'EQ',           message:'\"igual a\": Verifica se são iguais'},
+    NEQ:        {t: 'NEQ',          message:'\"diferente de\": Verifica se são diferentes'},
+    DOBRO:      {t: 'DOBRO',        message:'\"dobro de\": Calcula o dobro\"'},
+    TRIPLO:     {t: 'TRIPLO',       message:'\"triplo de\": Calcula o triplo\"'},
+    QUADRUPLO:  {t: 'QUADRUPLO',    message:'\"quádruplo de\": Calcula o quádruplo\"'},
+    MAIORITEMDE:{t: 'MAIORITEMDE',  message:'\"maior item de\": Busca o maior ítem de um vetor'},
+    MENORITEMDE:{t: 'MENORITEMDE',  message:'\"menor item de\": Busca o maior ítem de um vetor'},
+    ITEMDE:     {t: 'ITEMDE',       message:'\"primeiro|...|décimo nono item de\": Busca o ítem de vetor conforme localização informada'},
+    ARMAZENAR:  {t: 'ARMAZENAR',    message:'\"armazene|armazenar\": Início de uma operação de armazenamento de um valor na memória (Ex.: armazenar 20 em x)'},
+    ENTAO:      {t: 'ENTAO',        message:'\"então faça\": Precede operação a ser executada em uma condição positiva (Ex.: se ... então faça'},
+    SENAO:      {t: 'SENAO',        message:'\"senão faça\": Precede operação a ser executada em uma condição (Ex.: se ... então faça ... senão faça ...'},
+    ARRAY:      {t: 'ARRAY',        message:'Vetor de números (Ex: [1,2,3]'},
+    LP:         {t: 'LP',           message:'\"(\": Abre Parênteses'},
+    RP:         {t: 'RP',           message:'\")\": Fecha Parênteses'},
+    ESCREVER:   {t: 'ESCREVER',     message:'\"escreva|escrever\": Operação para escrever na saída algo (Ex.: escreva 1 + 4)'},
+    ID:         {t: 'ID',           message:'Identificador de uma localização da memória, inicia com uma letra e após números ou letras (Ex.: x, x1)'},
+    TEXT:       {t: 'TEXT',         message:'Texto entre aspas (Ex.: \"casa\"'},
+    EOF:        {t: 'EOF',          message:''},
 }
-
 
 // a grammar in JSON
 var grammar = {
@@ -206,6 +204,7 @@ function interpretar(texto) {
                                 if (o == exp) return (tokens[o].message);
                             }
                         })
+                        .filter(e => e.length)
                 }});
                 throw('error');
             }
