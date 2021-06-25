@@ -173,6 +173,7 @@ function preProcessamento(texto) {
     texto = texto.replace(new RegExp('[Ç]','gi'), 'c');
     
     var linhas = texto
+        .toLowerCase()
         .split(/\r?\n/g)
         .filter(l => l && l.replace(/\s/g, "").length);
     return linhas;
