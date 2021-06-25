@@ -36,7 +36,7 @@ export class ViewComponent implements OnInit {
 
   gerarForm() {
     this.form = this.fb.group({
-      texto: ['se 2 e maior que 1 entao armazenar 2 em x senao armazenar 1 em x\nescreva x\narmazenar x vezes 8 em x\nescreva x 3 vezes\nse x e maior que 17 entao escreva x senao escreva o quadruplo de x\nse x e maior que 15 entao escreva "OKAY"\nescreva "feito" 3 vezes\nescrever o dobro de (4 mais 3)\nescrever o dobro de 4 mais 3\nescrever o sexto item de [1,2,4,5,555,7]\nescreva o menor item de [1,2,4,5,555,7]\nescreva o maior item de [1,2,4,5,555,7]\n']
+      texto: ['se 2 é maior que 1 então armazenar 2 em x senão armazenar 1 em x\nescreva x\narmazenar x vezes 8 em x\nescreva x 3 vezes\nse x é maior que 17 então escreva x senão escreva o quádruplo de x\nse x é maior que 15 então escreva "OKAY"\nescreva "feito" 3 vezes\nescrever o dobro de (4 mais 3)\nescrever o dobro de 4 mais 3\nescrever o sexto item de [1,2,4,5,555,7]\nescreva o menor item de [1,2,4,5,555,7]\nescreva o maior item de [1,2,4,5,555,7]']
     });
   }
 

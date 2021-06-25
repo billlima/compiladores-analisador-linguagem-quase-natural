@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "dep": "npm install && npm run dep-back && npm run dep-front",
+    "dep-back": "cd back && npm install",
+    "dep-front": "cd front && npm install",
+    "back": "cd back && node index.js",
+    "front": "cd front && ng serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
